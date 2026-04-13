@@ -1,0 +1,151 @@
+{
+  "metadata": {
+    "name": "Default consistency test set",
+    "version": "1.0",
+    "created": "2026-04-13",
+    "total_cases": 10,
+    "synthetic_count": 5,
+    "real_world_count": 5
+  },
+  "groups": [
+    {
+      "group_id": "INV-001",
+      "group_type": "invariance",
+      "description": "Three phrasings of 'capital of France' — direct question, formal request, and typo-laden noise variant. All three MUST produce 'Paris'.",
+      "expected_behavior": "identical"
+    },
+    {
+      "group_id": "PRT-001",
+      "group_type": "perturbation",
+      "description": "Same programming language ranking question with candidates presented in different orders. Ranking answer may legitimately vary.",
+      "expected_behavior": "may_drift"
+    }
+  ],
+  "cases": [
+    {
+      "id": "SYN-001",
+      "prompt": "What is the capital of France?",
+      "expected_answer": "Paris",
+      "expected_pattern": "(?i)\\bparis\\b",
+      "test_type": "invariance",
+      "group_id": "INV-001",
+      "source": "synthetic",
+      "generation_rule": "template_substitution",
+      "metadata": {"template": "What is the capital of {country}?", "slot": "France"}
+    },
+    {
+      "id": "SYN-002",
+      "prompt": "Please tell me the name of the capital city of France.",
+      "expected_answer": "Paris",
+      "expected_pattern": "(?i)\\bparis\\b",
+      "test_type": "invariance",
+      "group_id": "INV-001",
+      "source": "synthetic",
+      "generation_rule": "template_substitution",
+      "metadata": {"template": "paraphrase — formal phrasing of SYN-001"}
+    },
+    {
+      "id": "SYN-003",
+      "prompt": "whats the capittel of france??",
+      "expected_answer": "Paris",
+      "expected_pattern": "(?i)\\bparis\\b",
+      "test_type": "invariance",
+      "group_id": "INV-001",
+      "source": "synthetic",
+      "generation_rule": "template_substitution",
+      "metadata": {"template": "typo + noise variant of SYN-001 (intentional spelling errors)"}
+    },
+    {
+      "id": "SYN-004",
+      "prompt": "Rank these programming languages by popularity: Python, JavaScript, Java. Most popular first.",
+      "expected_answer": null,
+      "expected_pattern": "(?i)(python|javascript|java)",
+      "test_type": "perturbation",
+      "group_id": "PRT-001",
+      "source": "synthetic",
+      "generation_rule": "format_permutation",
+      "metadata": {"note": "candidate order: Python first"}
+    },
+    {
+      "id": "SYN-005",
+      "prompt": "Rank these programming languages by popularity: Java, Python, JavaScript. Most popular first.",
+      "expected_answer": null,
+      "expected_pattern": "(?i)(python|javascript|java)",
+      "test_type": "perturbation",
+      "group_id": "PRT-001",
+      "source": "synthetic",
+      "generation_rule": "format_permutation",
+      "metadata": {"note": "candidate order: Java first — tests if order influences ranking output"}
+    },
+    {
+      "id": "RW-001",
+      "prompt": "When was it founded?",
+      "expected_answer": null,
+      "expected_pattern": null,
+      "test_type": "standard",
+      "group_id": null,
+      "source": "real_world",
+      "generation_rule": null,
+      "metadata": {
+        "domain": "ambiguous_reference",
+        "note": "Redacted from production support logs. Tests how LLM handles missing referent — should ask for clarification or note ambiguity."
+      }
+    },
+    {
+      "id": "RW-002",
+      "prompt": "A train travels at 60 miles per hour. How far does it travel in 2.5 hours?",
+      "expected_answer": "150 miles",
+      "expected_pattern": "(?i)150\\s*(miles?)?",
+      "test_type": "standard",
+      "group_id": null,
+      "source": "real_world",
+      "generation_rule": null,
+      "metadata": {
+        "domain": "multi_step_reasoning",
+        "note": "Redacted arithmetic reasoning case from QA dataset audit."
+      }
+    },
+    {
+      "id": "RW-003",
+      "prompt": "What does RAG stand for in the context of AI systems?",
+      "expected_answer": "Retrieval-Augmented Generation",
+      "expected_pattern": "(?i)retrieval.augmented.generation",
+      "test_type": "standard",
+      "group_id": null,
+      "source": "real_world",
+      "generation_rule": null,
+      "metadata": {
+        "domain": "domain_jargon",
+        "note": "Redacted from AI onboarding FAQ consistency audit."
+      }
+    },
+    {
+      "id": "RW-004",
+      "prompt": "The company was founded in 2020. According to our records the company was established in 1995. When was the company founded?",
+      "expected_answer": null,
+      "expected_pattern": "(?i)(1995|2020|contradiction|conflict|inconsistent|unclear)",
+      "test_type": "standard",
+      "group_id": null,
+      "source": "real_world",
+      "generation_rule": null,
+      "metadata": {
+        "domain": "contradictory_context",
+        "note": "Redacted from document-grounded QA system evaluation. Tests whether LLM surfaces the contradiction rather than hallucinating a single date."
+      }
+    },
+    {
+      "id": "RW-005",
+      "prompt": "Explain.",
+      "expected_answer": null,
+      "expected_pattern": "(?i)(clarif|what|which|please|more|context|specific)",
+      "test_type": "standard",
+      "group_id": null,
+      "source": "real_world",
+      "generation_rule": null,
+      "metadata": {
+        "domain": "insufficient_context",
+        "note": "Redacted from production chatbot error analysis. Tests how LLM handles severely underspecified queries."
+      }
+    }
+  ]
+}

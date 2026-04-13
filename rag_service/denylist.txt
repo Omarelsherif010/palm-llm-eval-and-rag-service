@@ -1,0 +1,14 @@
+# Topic denylist for RAG service guardrail
+# One prohibited term per line. Matching is case-insensitive substring search.
+# Lines starting with # are comments and are ignored.
+# Add or remove terms to adjust the content policy.
+
+hack
+exploit
+malware
+jailbreak
+bypass security
+personal data extraction
+credit card
+social security number
+password dump

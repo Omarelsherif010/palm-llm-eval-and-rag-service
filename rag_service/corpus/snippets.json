@@ -1,0 +1,74 @@
+[
+  {
+    "id": "snippet-001",
+    "title": "What is Retrieval-Augmented Generation (RAG)?",
+    "content": "Retrieval-Augmented Generation (RAG) is a technique that enhances large language model outputs by retrieving relevant documents from a knowledge corpus before generating a response. Instead of relying solely on parametric knowledge baked into model weights, RAG fetches grounding context at inference time. This reduces hallucination and keeps answers up-to-date without retraining the model.",
+    "topic": "rag"
+  },
+  {
+    "id": "snippet-002",
+    "title": "How RAG differs from fine-tuning",
+    "content": "Fine-tuning updates model weights by training on new data, which is expensive and can cause catastrophic forgetting. RAG, by contrast, keeps the model frozen and instead retrieves relevant context from an external store. Fine-tuning is better for adapting style or domain-specific reasoning; RAG is better for injecting frequently-changing factual knowledge.",
+    "topic": "rag"
+  },
+  {
+    "id": "snippet-003",
+    "title": "Text Embeddings Explained",
+    "content": "Text embeddings are dense vector representations of text that capture semantic meaning. Similar texts have vectors that are close together in vector space. Embedding models like sentence-transformers produce fixed-length vectors (e.g., 384 or 768 dimensions) that can be indexed for fast nearest-neighbor search. Embeddings enable semantic search, which outperforms keyword matching on paraphrased queries.",
+    "topic": "embeddings"
+  },
+  {
+    "id": "snippet-004",
+    "title": "TF-IDF: Term Frequency–Inverse Document Frequency",
+    "content": "TF-IDF is a classical information retrieval scoring method. Term Frequency (TF) measures how often a word appears in a document; Inverse Document Frequency (IDF) down-weights words that appear in many documents (e.g., 'the', 'is'). The product TF-IDF highlights words that are distinctive to a specific document. Unlike neural embeddings, TF-IDF is deterministic, fast, and requires no model download.",
+    "topic": "retrieval"
+  },
+  {
+    "id": "snippet-005",
+    "title": "Cosine Similarity vs Dot Product",
+    "content": "Cosine similarity measures the angle between two vectors, normalizing for magnitude. It is the standard metric for semantic similarity because it is insensitive to document length. Dot product is magnitude-sensitive: longer documents with more term overlap score higher regardless of relevance. For normalized embeddings cosine and dot product are equivalent; for unnormalized TF-IDF vectors, cosine is generally preferred.",
+    "topic": "retrieval"
+  },
+  {
+    "id": "snippet-006",
+    "title": "The Transformer Architecture",
+    "content": "Transformers use a self-attention mechanism to process all tokens in a sequence in parallel, capturing long-range dependencies more effectively than RNNs. The key components are multi-head attention layers, feed-forward networks, and positional encodings. BERT and GPT are both transformer-based but differ in training objective: BERT is bidirectional (masked language modeling) while GPT is autoregressive (next-token prediction).",
+    "topic": "transformers"
+  },
+  {
+    "id": "snippet-007",
+    "title": "Prompt Engineering Basics",
+    "content": "Prompt engineering is the practice of crafting input text to elicit desired outputs from a language model. Key techniques include: zero-shot prompting (no examples), few-shot prompting (2–5 labeled examples), chain-of-thought prompting (asking the model to reason step by step), and system messages (setting the model's role or persona). Well-engineered prompts can dramatically improve accuracy without any model training.",
+    "topic": "prompting"
+  },
+  {
+    "id": "snippet-008",
+    "title": "Hallucination in Large Language Models",
+    "content": "Hallucination refers to LLM outputs that are fluent and confident but factually incorrect. It occurs because LLMs generate tokens based on statistical patterns rather than verifiable facts. Common mitigation strategies include: grounding responses in retrieved documents (RAG), asking the model to cite sources, using lower temperature settings to reduce randomness, and post-processing with fact-checking tools.",
+    "topic": "llm_reliability"
+  },
+  {
+    "id": "snippet-009",
+    "title": "Temperature and Sampling in LLMs",
+    "content": "Temperature controls the randomness of an LLM's token sampling. At temperature=0, the model always picks the most probable next token (greedy decoding), producing deterministic and conservative outputs. At higher temperatures (0.7–1.0), the distribution is flattened, producing more varied and creative outputs. For factual Q&A tasks, temperature=0 minimizes hallucination and improves consistency.",
+    "topic": "llm_configuration"
+  },
+  {
+    "id": "snippet-010",
+    "title": "Vector Databases for Semantic Search",
+    "content": "Vector databases (e.g., Pinecone, Weaviate, pgvector) store dense embedding vectors and support approximate nearest-neighbor (ANN) search at scale. They use index structures like HNSW or IVF to return the top-k most similar vectors in milliseconds even over millions of entries. For small corpora (under a few thousand documents), in-memory similarity search with numpy or scikit-learn is sufficient and avoids infrastructure overhead.",
+    "topic": "retrieval"
+  },
+  {
+    "id": "snippet-011",
+    "title": "LLM Evaluation Metrics",
+    "content": "Common LLM evaluation metrics include: BLEU (n-gram overlap, originally for machine translation), ROUGE (recall-oriented overlap, common for summarization), BERTScore (contextual embedding similarity), and human evaluation. For consistency evaluation, invariance testing checks whether semantically equivalent prompts produce identical answers. Exact match and regex matching are useful for factual Q&A where expected answers are known.",
+    "topic": "evaluation"
+  },
+  {
+    "id": "snippet-012",
+    "title": "Context Window and Token Limits",
+    "content": "LLMs have a fixed context window — the maximum number of tokens they can process in a single call. GPT-3.5-turbo has a 16k token context; GPT-4 supports up to 128k tokens. When building RAG systems, retrieved documents must fit within the context window alongside the query and system prompt. Chunking strategies (splitting documents into smaller pieces) help manage context length constraints.",
+    "topic": "llm_configuration"
+  }
+]

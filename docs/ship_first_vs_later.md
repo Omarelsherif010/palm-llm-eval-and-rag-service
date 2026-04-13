@@ -59,3 +59,20 @@ data that does not exist in this prototype.
 The current runner calls the LLM synchronously per test case. For large test sets (50+
 cases), replacing this with `asyncio`/`httpx` async calls would reduce wall-clock eval
 time significantly. Deferred because the 10-case prototype completes in under 2 minutes.
+
+**6. deepeval / ragas for structured LLM evaluation**
+deepeval provides 50+ LLM-as-a-judge metrics (G-Eval, faithfulness, hallucination detection)
+and ragas provides RAG-specific metrics (context precision, context recall, answer relevancy).
+Neither framework covers invariance or perturbation testing out of the box — the hand-rolled
+harness was purpose-built for consistency measurement. At production scale, integrating ragas
+for RAG quality evaluation and deepeval for LLM output grading would complement (not replace)
+the consistency harness. Deferred because both add significant dependency weight (~100MB+)
+for metrics orthogonal to the prototype's core question: "does the LLM give stable answers?"
+
+**7. FAISS or ChromaDB for vector retrieval**
+The current retriever uses in-memory sklearn TF-IDF with exact cosine similarity. For
+corpora beyond a few thousand documents, FAISS (approximate nearest-neighbor with HNSW/IVF
+indexes) or ChromaDB (persistent vector store with embedding management) would be necessary.
+Deferred because exact search over 12 snippets is faster and simpler than any ANN index,
+and adding FAISS requires a C++ extension while ChromaDB adds SQLite persistence — neither
+justified at this scale.

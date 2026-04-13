@@ -164,6 +164,20 @@ All tests run without an API key (LLM calls are mocked in API tests).
 | Guardrail | Topic denylist | Sub-millisecond, auditable, fail-closed |
 | Similarity metric | Cosine (default) | Length-invariant; dot-product available for comparison |
 | Monitoring | Structured JSON logs | No external stack needed; parseable by any aggregator |
+| Eval framework | Hand-rolled harness | deepeval/ragas don't cover invariance/perturbation testing |
+| Vector search | In-memory sklearn | FAISS/ChromaDB are overkill for 12 snippets |
+
+### Why not deepeval, ragas, or sentence-transformers?
+
+These are excellent tools — at the right scale. Here's why they're deliberately excluded from this prototype:
+
+**deepeval** offers 50+ LLM-as-a-judge metrics (faithfulness, hallucination, answer relevancy), but none of them measure what this harness measures: *response consistency across paraphrased inputs*. Adding deepeval would mean pulling in ~100MB+ of dependencies to use 0% of its metric library, then still writing custom invariance/perturbation logic on top. The hand-rolled harness is leaner and purpose-built.
+
+**ragas** evaluates RAG pipeline quality (context precision, context recall, faithfulness). It answers "did the retriever find the right documents?" — not "does the LLM give the same answer when I rephrase the question?". Useful for a production RAG system, but orthogonal to our consistency evaluation. Listed as a ship-later addition in [`docs/ship_first_vs_later.md`](docs/ship_first_vs_later.md).
+
+**sentence-transformers** (e.g., `all-MiniLM-L6-v2`) would improve semantic similarity scoring — TF-IDF gives ~0.3 between "Paris" and "The capital of France is Paris", while neural embeddings give ~0.9. But sentence-transformers pulls in PyTorch (~1.5GB), making `uv sync` go from 3 seconds to several minutes. For 10 test cases with regex fallback and 12 retrieval snippets with domain-specific vocabulary, TF-IDF's keyword matching is the right trade-off. The retriever and metrics modules are isolated behind clean interfaces — swapping to embeddings is a one-file change when scale demands it.
+
+**FAISS / ChromaDB** are vector databases designed for millions of documents with approximate nearest-neighbor search. For 12 snippets, an in-memory sklearn sparse matrix with exact cosine similarity is faster, simpler, and has zero infrastructure overhead.
 
 ---
 

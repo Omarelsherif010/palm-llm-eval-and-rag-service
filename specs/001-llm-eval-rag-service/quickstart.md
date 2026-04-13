@@ -1,6 +1,6 @@
 # Quickstart: LLM Eval Harness & RAG Service
 
-**Prerequisites**: Python 3.11+, an OpenAI-compatible API key
+**Prerequisites**: Python 3.11+, [uv](https://docs.astral.sh/uv/), an OpenAI-compatible API key
 
 ## Setup
 
@@ -8,12 +8,8 @@
 # Clone and enter the project
 cd palm-llm-eval-and-rag-service
 
-# Create virtual environment
-python -m venv .venv
-source .venv/bin/activate
-
-# Install dependencies
-pip install -r requirements.txt
+# Install dependencies (reads pyproject.toml + uv.lock)
+uv sync --dev
 
 # Configure environment
 cp .env.example .env

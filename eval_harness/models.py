@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Optional
+from typing import Any, Literal, Optional
 from pydantic import BaseModel
 
 
@@ -8,18 +8,18 @@ class TestCase(BaseModel):
     prompt: str
     expected_answer: Optional[str] = None
     expected_pattern: Optional[str] = None
-    test_type: str  # "standard" | "invariance" | "perturbation"
+    test_type: Literal["standard", "invariance", "perturbation"]
     group_id: Optional[str] = None
-    source: str  # "synthetic" | "real_world"
+    source: Literal["synthetic", "real_world"]
     generation_rule: Optional[str] = None
-    metadata: Optional[dict] = None
+    metadata: Optional[dict[str, Any]] = None
 
 
 class TestGroup(BaseModel):
     group_id: str
-    group_type: str  # "invariance" | "perturbation"
+    group_type: Literal["invariance", "perturbation"]
     description: str
-    expected_behavior: str  # "identical" | "may_drift"
+    expected_behavior: Literal["identical", "may_drift"]
 
 
 class TestSetMetadata(BaseModel):

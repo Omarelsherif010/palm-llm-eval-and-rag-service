@@ -12,6 +12,7 @@ Endpoints:
 from __future__ import annotations
 import time
 from contextlib import asynccontextmanager
+
 import httpx
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
@@ -28,16 +29,21 @@ from rag_service.retriever import TFIDFRetriever
 
 _retriever: TFIDFRetriever | None = None
 _guardrail: TopicDenylist | None = None
+_http_client: httpx.AsyncClient | None = None
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    global _retriever, _guardrail
+    global _retriever, _guardrail, _http_client
     _retriever = TFIDFRetriever()
     _guardrail = TopicDenylist(config.RAG_DENYLIST_PATH)
+    _http_client = httpx.AsyncClient(timeout=60.0)
     yield
+    if _http_client:
+        await _http_client.aclose()
     _retriever = None
     _guardrail = None
+    _http_client = None
 
 
 app = FastAPI(
@@ -53,10 +59,12 @@ app = FastAPI(
 # ---------------------------------------------------------------------------
 
 
-def _generate_answer(query: str, snippets_text: str) -> str:
-    """Single LLM call: snippets as context, query as user message, temp=0."""
+async def _generate_answer(query: str, snippets_text: str) -> str:
+    """Single async LLM call: snippets as context, query as user message, temp=0."""
     if not config.LLM_API_KEY:
         return "[LLM_API_KEY not configured — returning retrieved snippets only]"
+    if _http_client is None:
+        raise RuntimeError("HTTP client not initialized")
 
     system_prompt = (
         "You are a helpful assistant. Answer the user's question using only the "
@@ -76,11 +84,10 @@ def _generate_answer(query: str, snippets_text: str) -> str:
         "Authorization": f"Bearer {config.LLM_API_KEY}",
         "Content-Type": "application/json",
     }
-    response = httpx.post(
+    response = await _http_client.post(
         f"{config.LLM_BASE_URL}/chat/completions",
         json=payload,
         headers=headers,
-        timeout=60.0,
     )
     response.raise_for_status()
     return response.json()["choices"][0]["message"]["content"].strip()
@@ -136,8 +143,8 @@ async def answer(request: AnswerRequest) -> AnswerResponse:
     generation_error = None
     if snippets:
         try:
-            answer_text = _generate_answer(request.query, snippets_text)
-        except Exception as e:
+            answer_text = await _generate_answer(request.query, snippets_text)
+        except (httpx.HTTPStatusError, httpx.RequestError, KeyError) as e:
             generation_error = str(e)
             answer_text = "[LLM generation failed — see retrieved snippets]"
 

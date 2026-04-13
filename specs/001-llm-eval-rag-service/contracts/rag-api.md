@@ -45,11 +45,17 @@ from the corpus, and returns a generated answer.
 }
 ```
 
-### Response (400 Bad Request) — Empty Query
+### Response (422 Unprocessable Entity) — Validation Error
 
 ```json
 {
-  "detail": "Query must be a non-empty string"
+  "detail": [
+    {
+      "type": "value_error",
+      "loc": ["body", "query"],
+      "msg": "Value error, Query must be a non-empty string"
+    }
+  ]
 }
 ```
 

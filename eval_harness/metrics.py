@@ -39,7 +39,8 @@ def semantic_similarity(text_a: str, text_b: str) -> float:
         tfidf = vectorizer.fit_transform([text_a, text_b])
         score = cosine_similarity(tfidf[0:1], tfidf[1:2])[0][0]
         return float(score)
-    except Exception:
+    except ValueError:
+        # Empty vocabulary (e.g., both texts are only stop words)
         return 0.0
 
 
@@ -63,5 +64,5 @@ def pairwise_max_drift(texts: list[str]) -> float:
                 if dist > max_dist:
                     max_dist = dist
         return max_dist
-    except Exception:
+    except ValueError:
         return 0.0

@@ -23,7 +23,10 @@ CORPUS_PATH = Path(__file__).parent / "corpus" / "snippets.json"
 class TFIDFRetriever:
     def __init__(self, corpus_path: str | Path = CORPUS_PATH) -> None:
         self._snippets: list[dict] = self._load_corpus(corpus_path)
-        self._vectorizer = TfidfVectorizer(token_pattern=r"(?u)\b\w+\b")
+        # norm=None disables L2 normalization so cosine and dot-product
+        # produce meaningfully different rankings. With the default norm='l2',
+        # all vectors have unit length and both metrics are equivalent.
+        self._vectorizer = TfidfVectorizer(token_pattern=r"(?u)\b\w+\b", norm=None)
         corpus_texts = [s["content"] for s in self._snippets]
         self._tfidf_matrix = self._vectorizer.fit_transform(corpus_texts)
 

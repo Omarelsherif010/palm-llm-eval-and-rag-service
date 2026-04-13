@@ -97,13 +97,16 @@ def is_passed(scores: dict[str, float], case) -> bool:
     A case passes if:
     - regex_match == 1.0 (when a pattern is defined), OR
     - semantic_similarity >= threshold (when expected answer is defined), OR
-    - for open-ended cases: always passes (no expected answer to verify against)
+    - for open-ended cases (no expected_answer, no expected_pattern): always passes
     """
+    # Open-ended cases have no ground truth to check against
+    if case.expected_answer is None and case.expected_pattern is None:
+        return True
     if "regex_match" in scores and case.expected_pattern:
         return scores["regex_match"] == 1.0
-    if "exact_match" in scores or "semantic_similarity" in scores:
+    if case.expected_answer is not None:
         return scores.get("semantic_similarity", 0.0) >= PASS_THRESHOLD_SEMANTIC
-    return True  # open-ended
+    return True
 
 
 def compute_group_results(test_set: TestSet, results_map: dict[str, EvalResult]) -> list[GroupResult]:
@@ -284,7 +287,11 @@ def main() -> int:
         return 2
 
     print(f"Running evaluation: {args.test_set}", file=sys.stderr)
-    test_set = load_test_set(args.test_set)
+    try:
+        test_set = load_test_set(args.test_set)
+    except (json.JSONDecodeError, Exception) as e:
+        print(f"Error: invalid test set: {e}", file=sys.stderr)
+        return 2
     n = len(test_set.cases)
 
     if n < 8 or n > 12:

@@ -208,6 +208,15 @@ tests/                 # pytest suite (no API key needed)
 docs/
 └── ship_first_vs_later.md
 
+results/               # Pre-generated output — review without an API key
+├── eval_report.json          # Full eval harness JSON (10/10 pass)
+├── eval_report_human.txt     # Human-readable eval summary
+├── index_comparison.txt      # Cosine vs dot-product side-by-side
+├── rag_health.json           # GET /health response
+├── rag_query.json            # POST /answer — "What is RAG?"
+├── rag_query_k3_cosine.json  # POST /answer — k=3, cosine metric
+└── rag_guardrail_block.json  # POST /answer — 403 guardrail block
+
 pyproject.toml         # Project metadata and dependencies (canonical)
 uv.lock                # Locked dependency tree (commit this)
 .env.example           # Environment variable template

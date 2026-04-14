@@ -28,7 +28,7 @@
 
 **Purpose**: Shared configuration modules that both deliverables depend on
 
-- [x] T005 [P] Create `eval_harness/__init__.py` and `eval_harness/config.py` — load LLM_API_KEY, LLM_BASE_URL (default `https://api.openai.com/v1`), LLM_MODEL (default `gpt-3.5-turbo`) from environment using python-dotenv
+- [x] T005 [P] Create `eval_harness/__init__.py` and `eval_harness/config.py` — load LLM_API_KEY, LLM_BASE_URL (default `https://api.openai.com/v1`), LLM_MODEL (default `gpt-5.4-nano-2026-03-17`) from environment using python-dotenv
 - [x] T006 [P] Create `rag_service/__init__.py` and `rag_service/config.py` — load LLM env vars plus RAG_DEFAULT_K (default 5), RAG_SIMILARITY_METRIC (default `cosine`), RAG_DENYLIST_PATH (default `rag_service/denylist.txt`) from environment
 
 **Checkpoint**: Foundation ready — user story implementation can begin. US1 and US2 can proceed in parallel.

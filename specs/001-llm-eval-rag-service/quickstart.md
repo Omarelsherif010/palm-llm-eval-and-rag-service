@@ -74,7 +74,7 @@ pytest tests/ -v
 |----------|----------|---------|-------------|
 | LLM_API_KEY | yes | — | API key for OpenAI-compatible provider |
 | LLM_BASE_URL | no | https://api.openai.com/v1 | API base URL |
-| LLM_MODEL | no | gpt-3.5-turbo | Model to use |
+| LLM_MODEL | no | gpt-5.4-nano-2026-03-17 | Model to use |
 | RAG_DEFAULT_K | no | 5 | Default number of snippets to retrieve |
 | RAG_SIMILARITY_METRIC | no | cosine | Default similarity metric |
 | RAG_DENYLIST_PATH | no | rag_service/denylist.txt | Path to topic denylist |

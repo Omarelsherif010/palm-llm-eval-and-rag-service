@@ -24,7 +24,7 @@ python -m eval_harness.runner [OPTIONS]
 |----------|----------|---------|-------------|
 | `LLM_API_KEY` | yes | — | API key for the LLM provider |
 | `LLM_BASE_URL` | no | `https://api.openai.com/v1` | Base URL for OpenAI-compatible API |
-| `LLM_MODEL` | no | `gpt-3.5-turbo` | Model name to use |
+| `LLM_MODEL` | no | `gpt-5.4-nano-2026-03-17` | Model name to use |
 
 ## Test Set File Format (JSON)
 

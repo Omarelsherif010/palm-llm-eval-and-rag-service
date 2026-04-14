@@ -208,11 +208,6 @@ tests/                 # pytest suite (no API key needed)
 docs/
 └── ship_first_vs_later.md
 
-results/               # Pre-generated output (no API key needed to review)
-├── eval_report.json        # Full JSON eval results
-├── eval_report_human.txt   # Human-readable eval summary
-└── index_comparison.txt    # Cosine vs dot-product comparison
-
 pyproject.toml         # Project metadata and dependencies (canonical)
 uv.lock                # Locked dependency tree (commit this)
 .env.example           # Environment variable template

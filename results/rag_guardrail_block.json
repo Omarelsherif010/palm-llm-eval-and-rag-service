@@ -1,0 +1,5 @@
+{
+    "detail": "Query blocked by content policy",
+    "guardrail": "topic_denylist",
+    "reason": "Query contains prohibited topic: 'hack'"
+}

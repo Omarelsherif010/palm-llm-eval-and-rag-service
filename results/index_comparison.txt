@@ -1,0 +1,33 @@
+Query                                                   | Top-1 Cosine                        | Top-1 Dot Product                   | Match
+--------------------------------------------------------------------------------------------------------------------------------------------
+What is retrieval-augmented generation?                 | snippet-001 (0.2592)                | snippet-001 (24.4480)               | ✓
+How does TF-IDF work?                                   | snippet-004 (0.5057)                | snippet-004 (56.9098)               | ✓
+What is the difference between cosine and dot produc... | snippet-005 (0.5689)                | snippet-005 (82.5154)               | ✓
+How do transformers handle long-range dependencies?     | snippet-006 (0.2282)                | snippet-006 (30.8246)               | ✓
+What causes hallucination in language models?           | snippet-006 (0.1293)                | snippet-006 (12.6104)               | ✓
+How does temperature affect LLM outputs?                | snippet-009 (0.2759)                | snippet-009 (30.6430)               | ✓
+What is the difference between fine-tuning and RAG?     | snippet-002 (0.4299)                | snippet-002 (49.9441)               | ✓
+
+Top-1 agreement between metrics: 7/7 queries
+
+=== JUSTIFICATION FOR DEFAULT: cosine ===
+
+Cosine similarity is preferred over dot-product for TF-IDF retrieval because:
+
+1. MAGNITUDE NORMALIZATION: Cosine normalizes by vector magnitude, so a
+   short, focused snippet on 'cosine similarity' scores as high as a long
+   snippet that mentions it in passing. Dot-product unfairly boosts longer
+   documents with more term overlap.
+
+2. RELEVANCE vs LENGTH BIAS: With TF-IDF vectors (which are NOT L2-normalized),
+   dot-product ranks the longest snippet first regardless of topical focus.
+   Cosine corrects for this by dividing by the L2 norm of each vector.
+
+3. EMPIRICAL AGREEMENT: On this 12-snippet corpus, both metrics agree on the
+   top result for 7/7 queries. Disagreements favour cosine as the
+   more topic-focused result.
+
+SHIP-LATER NOTE: For neural embeddings (sentence-transformers), embeddings are
+already L2-normalized, making cosine and dot-product equivalent. At that point
+the choice becomes a performance vs precision trade-off (dot-product is faster
+with FAISS IVF indexes).

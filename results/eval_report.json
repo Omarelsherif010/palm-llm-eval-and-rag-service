@@ -1,0 +1,148 @@
+{
+  "timestamp": "2026-04-14T11:03:49.897636+00:00",
+  "test_set_name": "Default consistency test set",
+  "total_cases": 10,
+  "passed_cases": 10,
+  "failed_cases": 0,
+  "error_cases": 0,
+  "mean_exact_match": 0.0,
+  "mean_regex_match": 1.0,
+  "mean_semantic_similarity": 0.2968,
+  "group_results": [
+    {
+      "group_id": "INV-001",
+      "group_type": "invariance",
+      "consistency_score": 0.6412,
+      "all_identical": false,
+      "max_drift": 0.6252,
+      "cases": [
+        "SYN-001",
+        "SYN-002",
+        "SYN-003"
+      ]
+    },
+    {
+      "group_id": "PRT-001",
+      "group_type": "perturbation",
+      "consistency_score": 1.0,
+      "all_identical": false,
+      "max_drift": 0.0,
+      "cases": [
+        "SYN-004",
+        "SYN-005"
+      ]
+    }
+  ],
+  "results": [
+    {
+      "test_case_id": "SYN-001",
+      "llm_response": "The capital of France is **Paris**.",
+      "scores": {
+        "exact_match": 0.0,
+        "semantic_similarity": 0.3032160644503863,
+        "regex_match": 1.0
+      },
+      "passed": true,
+      "latency_ms": 1250.4,
+      "error": null
+    },
+    {
+      "test_case_id": "SYN-002",
+      "llm_response": "The capital city of France is **Paris**.",
+      "scores": {
+        "exact_match": 0.0,
+        "semantic_similarity": 0.2789425453258252,
+        "regex_match": 1.0
+      },
+      "passed": true,
+      "latency_ms": 2004.24,
+      "error": null
+    },
+    {
+      "test_case_id": "SYN-003",
+      "llm_response": "Do you mean **the capital city of France**?\n\nIf so, it’s **Paris**.",
+      "scores": {
+        "exact_match": 0.0,
+        "semantic_similarity": 0.2011946755849157,
+        "regex_match": 1.0
+      },
+      "passed": true,
+      "latency_ms": 1094.08,
+      "error": null
+    },
+    {
+      "test_case_id": "SYN-004",
+      "llm_response": "Most popular first: **JavaScript, Python, Java**.",
+      "scores": {
+        "regex_match": 1.0
+      },
+      "passed": true,
+      "latency_ms": 823.49,
+      "error": null
+    },
+    {
+      "test_case_id": "SYN-005",
+      "llm_response": "Most popular first: **JavaScript > Python > Java**.",
+      "scores": {
+        "regex_match": 1.0
+      },
+      "passed": true,
+      "latency_ms": 920.03,
+      "error": null
+    },
+    {
+      "test_case_id": "RW-001",
+      "llm_response": "Which organization or company are you referring to?  \nPlease share the name (or a link), and I’ll tell you when it was founded.",
+      "scores": {
+        "semantic_similarity": 0.27894254532582513
+      },
+      "passed": true,
+      "latency_ms": 1271.8,
+      "error": null
+    },
+    {
+      "test_case_id": "RW-002",
+      "llm_response": "Distance = speed × time = \\(60 \\text{ mph} \\times 2.5 \\text{ hr} = 150\\) miles.",
+      "scores": {
+        "exact_match": 0.0,
+        "semantic_similarity": 0.26880497578542223,
+        "regex_match": 1.0
+      },
+      "passed": true,
+      "latency_ms": 1039.82,
+      "error": null
+    },
+    {
+      "test_case_id": "RW-003",
+      "llm_response": "In AI systems, **RAG** stands for **Retrieval-Augmented Generation**.",
+      "scores": {
+        "exact_match": 0.0,
+        "semantic_similarity": 0.44943641652398214,
+        "regex_match": 1.0
+      },
+      "passed": true,
+      "latency_ms": 1212.81,
+      "error": null
+    },
+    {
+      "test_case_id": "RW-004",
+      "llm_response": "Based on the information given, the company was founded in **1995** (since the records say it was established in 1995, even though another statement says 2020).",
+      "scores": {
+        "regex_match": 1.0
+      },
+      "passed": true,
+      "latency_ms": 2417.72,
+      "error": null
+    },
+    {
+      "test_case_id": "RW-005",
+      "llm_response": "Sure—what would you like me to explain?\n\nIf you paste the text/problem (or tell me the topic), I can explain it step by step in a clear way.",
+      "scores": {
+        "regex_match": 1.0
+      },
+      "passed": true,
+      "latency_ms": 930.1,
+      "error": null
+    }
+  ]
+}

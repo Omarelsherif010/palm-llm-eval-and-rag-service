@@ -1,0 +1,38 @@
+Running evaluation: /Users/omarelsherif010/github/Palm_Outsourcing/palm-llm-eval-and-rag-service/eval_harness/test_sets/default.json
+  [PASS] SYN-001
+  [PASS] SYN-002
+  [PASS] SYN-003
+  [PASS] SYN-004
+  [PASS] SYN-005
+  [PASS] RW-001
+  [PASS] RW-002
+  [PASS] RW-003
+  [PASS] RW-004
+  [PASS] RW-005
+JSON results written to results/eval_report.json
+=== LLM Consistency Evaluation Report ===
+Run:       2026-04-14T11:03:49.897636+00:00
+Test set:  Default consistency test set (10 cases)
+
+RESULTS: 10 passed | 0 failed | 0 errors
+
+GROUP: INV-001 (invariance) — consistency: 64%  max_drift: 0.625
+  SYN-001: PASS (exact_match=0.00  semantic_similarity=0.30  regex_match=1.00)
+  SYN-002: PASS (exact_match=0.00  semantic_similarity=0.28  regex_match=1.00)
+  SYN-003: PASS (exact_match=0.00  semantic_similarity=0.20  regex_match=1.00)
+
+GROUP: PRT-001 (perturbation) — consistency: 100%  max_drift: 0.000
+  SYN-004: PASS (regex_match=1.00)
+  SYN-005: PASS (regex_match=1.00)
+
+AGGREGATE METRICS:
+  Mean exact match:          0.0000
+  Mean regex match:          1.0000
+  Mean semantic similarity:  0.2968
+
+STANDALONE CASES:
+  RW-001: PASS (semantic_similarity=0.28)
+  RW-002: PASS (exact_match=0.00  semantic_similarity=0.27  regex_match=1.00)
+  RW-003: PASS (exact_match=0.00  semantic_similarity=0.45  regex_match=1.00)
+  RW-004: PASS (regex_match=1.00)
+  RW-005: PASS (regex_match=1.00)
